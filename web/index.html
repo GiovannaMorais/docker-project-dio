@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docker Project</title>
+    <style>
+      body {
+        background-color: #f0f0f0;
+        font-family: sans-serif;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      #input-container {
+        display: flex;
+        align-items: center;
+        margin: 10px auto;
+      }
+
+      #input {
+        flex: 1;
+        margin-right: 10px;
+        padding: 15px;
+      }
+
+      #btn {
+        background: #1e90ff;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .todo {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .todo-text {
+        flex: 1;
+      }
+
+      .todo-btn {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        font-size: 16px;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      .light {
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      .dark {
+        background-color: #333;
+      }
+      .dark h1 {
+        color: white;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <h1>TodoList</h1>
+    <div class="mode">
+      <button id="btn-sun">🌞️</button>
+      <button id="btn-moon">🌚️</button>
+    </div>
+
+    <div id="input-container">
+      <input type="text" id="input" placeholder="Adicione uma tarefa" />
+      <button id="btn">Adicionar</button>
+    </div>
+
+    <div id="todo-list"></div>
+
+    <script>
+      let todo = [];
+
+      let input = document.getElementById("input");
+      let btn = document.getElementById("btn");
+      let todoList = document.getElementById("todo-list");
+
+      const renderTodoList = () => {
+        todoList.innerHTML = "";
+
+        for (let i = 0; i < todo.length; i += 1) {
+          let todoItem = document.createElement("div");
+          todoItem.className = "todo";
+
+          let todoText = document.createElement("div");
+          todoText.className = "todo-text";
+          todoText.innerHTML = todo[i];
+          todoItem.appendChild(todoText);
+
+          let todoBtn = document.createElement("button");
+          todoBtn.className = "todo-btn";
+          todoBtn.innerHTML = "Remover";
+          todoBtn.addEventListener("click", () => {
+            todo.splice(i, 1);
+            renderTodoList();
+          });
+          todoItem.appendChild(todoBtn);
+
+          todoList.appendChild(todoItem);
+        }
+      };
+
+      btn.addEventListener("click", () => {
+        if (input.value.trim() !== "") {
+          todo.push(input.value);
+          input.value = "";
+          renderTodoList();
+        }
+      });
+
+      input.addEventListener("keyup", (e) => {
+        if (e.key === "Enter" && input.value.trim() !== "") {
+          todo.push(input.value);
+          input.value = "";
+          renderTodoList();
+        }
+      });
+
+      let moon = document.getElementById("btn-moon");
+      let sun = document.getElementById("btn-sun");
+
+      moon.addEventListener("click", () => {
+        let body = document.getElementsByTagName("body")[0];
+        body.classList.add("dark");
+      });
+
+      sun.addEventListener("click", () => {
+        let body = document.getElementsByTagName("body")[0];
+        body.classList.remove("dark");
+      });
+    </script>
+  </body>
+</html>
